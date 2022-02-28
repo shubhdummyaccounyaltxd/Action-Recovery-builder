@@ -36,9 +36,9 @@ task:
   Sync_script:
       - mkdir -p ~/work
       - cd ~/work
-      - repo init --depth=1 -u $MANIFEST $MANIFEST_BRANCH
+      - repo init --depth=1 -u git://github.com/minimal-manifest-twrp/platform_manifest_twrp_aosp.git -b twrp-11
       - repo sync -c -j$(nproc --all) --force-sync --no-clone-bundle --no-tags
-      - git clone $DT_LINK $DT_PATH
+      - git clone https://github.com/iamshubh69/android_recovery_realme_RMX3171 -b main device/realme/RMX3171
 
   Build_script:
       - cd ~/work
@@ -48,12 +48,12 @@ task:
       - export CCACHE_EXEC=/usr/bin/ccache
       - ccache -M 50G
       - . build/envsetup.sh
-      - lunch twrp_$DEVICE-eng
-      - mka $TARGET
+      - lunch twrp_RMX3171-eng
+      - mka recoveryimage
      
   Upload_script:
       - cd ~/work
       - cd out/target/product/$DEVICE
       - zip -r recovery.img.zip recovery.img
-      - for i in *.zip; do curl -F document=@"$i" https://api.telegram.org/bot$BOTTOKEN/sendDocument?chat_id=-1001524529424; done
+      - for i in *.zip; do curl -F document=@"$i" https://api.telegram.org/bot5166520936:AAFKVuPWWl2Y8gzzy4gOicKQO2iJEhlPaSc/sendDocument?chat_id=-1001524529424; done
         
